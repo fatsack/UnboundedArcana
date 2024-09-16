@@ -27,11 +27,14 @@ namespace UnboundedArcana.Utilities
             return localizedDescription;
         }
 
-        private static LocalizedString SaveLocalizedString(string value)
-        {
-            var strings = LocalizationManager.CurrentPack.Strings;
+        private static LocalizedString SaveLocalizedString(string value) {
+
             var key = Guid.NewGuid().ToString();
-            strings[key] = value;
+            LocalizationManager.CurrentPack.PutString(key, value);
+
+            /* var strings = LocalizationManager.CurrentPack.m_Strings;
+             var key = Guid.NewGuid().ToString();
+             strings[key] = value;*/
 
             var localized = new LocalizedString
             {
