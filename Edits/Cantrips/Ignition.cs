@@ -21,14 +21,14 @@ namespace UnboundedArcana.Edits
 {
     partial class Cantrips
     {
-        public static void EditRayOfFrost()
+        public static void EditIgnition()
         {
-            const string rayOfFrostGuid = "9af2ab69df6538f4793b2f9c3cc85603";
+            const string ignitionGuid = "564c2ac83c7844beb1921e69ab159ac6";
 
             try
             {
-                var rayOfFrost = ResourcesLibrary.TryGetBlueprint<BlueprintAbility>(rayOfFrostGuid);
-                rayOfFrost.m_Description = CreateLocalizedString("A ray of freezing air and ice projects from your pointing finger. You must succeed on a ranged touch attack with the ray to deal damage to a target. The ray deals 1d3 + half of your caster level (max 10) points of cold damage.");
+                var ignition = ResourcesLibrary.TryGetBlueprint<BlueprintAbility>(ignitionGuid);
+                ignition.m_Description = CreateLocalizedString("You cause a spark of fire to strike the target with a successful ranged touch attack. The spell deals 1d3 + half of your caster level (max 10) points of fire energy damage.");
                 var contextRankConfig = new ContextRankConfigBuilder
                 {
                     BaseValueType = ContextRankBaseValueType.CasterLevel,
@@ -36,18 +36,17 @@ namespace UnboundedArcana.Edits
                     Progression = ContextRankProgression.Div2,
                     Max = 10
                 }.Build();
-                rayOfFrost.AddComponent(contextRankConfig);
-
-                var runAction = rayOfFrost.GetComponent<AbilityEffectRunAction>();
+                ignition.AddComponent(contextRankConfig);
+                var runAction = ignition.GetComponent<AbilityEffectRunAction>();
                 var runActionConditional = runAction.Actions.Actions.FirstOfType<Conditional>();
-                
+
                 var dealDamageActionIfFalse = runActionConditional.IfFalse.Actions.FirstOfType<ContextActionDealDamage>();
                 dealDamageActionIfFalse.Value.BonusValue = new ContextValue
                 {
                     ValueType = ContextValueType.Rank,
                     ValueRank = AbilityRankType.DamageBonus
                 };
-                
+
                 var dealDamageActionIfTrue = runActionConditional.IfTrue.Actions.FirstOfType<ContextActionDealDamage>();
                 dealDamageActionIfTrue.Value.BonusValue = new ContextValue
                 {
@@ -55,11 +54,11 @@ namespace UnboundedArcana.Edits
                     ValueRank = AbilityRankType.DamageBonus
                 };
 
-                Main.Logger.Log($"Successfully installed Ray of Frost edit!");
+                Main.Logger.Log($"Successfully installed Ignition edit!");
             }
             catch (Exception e)
             {
-                Main.Logger.Error($"Error when trying to edit Ray of Frost spell! {e.Message}, {e.StackTrace}");
+                Main.Logger.Error($"Error when trying to edit Ignition spell! {e.Message}, {e.StackTrace}");
             }
         }
     }
