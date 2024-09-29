@@ -38,8 +38,18 @@ namespace UnboundedArcana.Edits
                 }.Build();
                 acidSplash.AddComponent(contextRankConfig);
                 var runAction = acidSplash.GetComponent<AbilityEffectRunAction>();
-                var dealDamageAction = runAction.Actions.Actions.FirstOfType<ContextActionDealDamage>();
-                dealDamageAction.Value.BonusValue = new ContextValue
+                var runActionConditional = runAction.Actions.Actions.FirstOfType<Conditional>();
+                var runActionConditional = runAction.Actions.Actions.FirstOfType<Conditional>();
+
+                var dealDamageActionIfFalse = runActionConditional.IfFalse.Actions.FirstOfType<ContextActionDealDamage>();
+                dealDamageActionIfFalse.Value.BonusValue = new ContextValue
+                {
+                    ValueType = ContextValueType.Rank,
+                    ValueRank = AbilityRankType.DamageBonus
+                };
+
+                var dealDamageActionIfTrue = runActionConditional.IfTrue.Actions.FirstOfType<ContextActionDealDamage>();
+                dealDamageActionIfTrue.Value.BonusValue = new ContextValue
                 {
                     ValueType = ContextValueType.Rank,
                     ValueRank = AbilityRankType.DamageBonus
@@ -49,7 +59,7 @@ namespace UnboundedArcana.Edits
             }
             catch (Exception e)
             {
-                Main.Logger.Error($"Error when trying to edit Acid Splash spell! {e.Message}");
+                Main.Logger.Error($"Error when trying to edit Acid Splash spell! {e.Message}, {e.StackTrace}");
             }
         }
     }

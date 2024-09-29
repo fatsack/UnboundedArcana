@@ -24,7 +24,9 @@ namespace UnboundedArcana.Patches
             if (initialized) return;
             initialized = true;
             Cantrips.EditRayOfFrost();
+            Cantrips.EditDisruptUndead();
             Cantrips.EditAcidSplash();
+            Cantrips.EditIgnition();
             Cantrips.EditJolt();
             Cantrips.EditDivineZap();
             Cantrips.EditDaze();
